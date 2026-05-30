@@ -171,6 +171,7 @@ export default function QuickPlay() {
   const winnerRef = useRef<Player | "tie" | null>(winner);
   const burstIdRef = useRef(0);
   const aiBusyRef = useRef(false);
+  const gridContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => { gridRef.current = grid; }, [grid]);
   useEffect(() => { wordCountsRef.current = wordCounts; }, [wordCounts]);
@@ -376,20 +377,16 @@ export default function QuickPlay() {
       setSwipeTrace([]);
       return;
     }
+    // Only the word spelled in the direction the player actually swiped counts.
+    // (To claim a word that reads the other way, swipe it in that direction.)
     const forward = swipeTrace.map(([r, c]) => grid[r][c].letter).join("").toLowerCase();
-    const reverse = forward.split("").reverse().join("");
-    const word = dictionary.has(forward)
-      ? forward
-      : dictionary.has(reverse)
-      ? reverse
-      : null;
+    const word = dictionary.has(forward) ? forward : null;
     if (!word) {
       setFlash({ message: `${forward.toUpperCase()} — not a valid word`, positive: false });
       setSwipeTrace([]);
       return;
     }
-    const cells: [number, number][] =
-      word === reverse ? [...swipeTrace].reverse() : [...swipeTrace];
+    const cells: [number, number][] = [...swipeTrace];
     const key = cellsToKey(cells);
     if (claimedPathsRef.current.has(key)) {
       setFlash({ message: "Already claimed", positive: false });
@@ -420,6 +417,19 @@ export default function QuickPlay() {
       handleSwipeEnter(r, c);
     }
   };
+
+  // Block page scrolling while swiping. React's onTouchMove is registered as a
+  // passive listener, so preventDefault there is ignored — attach a native,
+  // non-passive listener on the grid to actually cancel the scroll gesture.
+  useEffect(() => {
+    const node = gridContainerRef.current;
+    if (!node) return;
+    const onTouchMoveNative = (e: TouchEvent) => {
+      if (isDragging) e.preventDefault();
+    };
+    node.addEventListener("touchmove", onTouchMoveNative, { passive: false });
+    return () => node.removeEventListener("touchmove", onTouchMoveNative);
+  }, [isDragging]);
 
   // End-turn → AI's turn
   const endTurnAndPassToAi = useCallback(() => {
@@ -635,9 +645,13 @@ export default function QuickPlay() {
         {/* Grid + bursts */}
         <div className="relative">
           <div
+            ref={gridContainerRef}
             onTouchMove={handleTouchMove}
             className="grid gap-1.5 max-w-[480px] mx-auto select-none"
-            style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
+            style={{
+              gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
+              touchAction: phase === "swipe" ? "none" : "manipulation",
+            }}
           >
             {grid.map((row, r) =>
               row.map((cell, c) => {
