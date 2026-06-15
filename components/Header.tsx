@@ -20,7 +20,14 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-3xl float">🐼</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="Word Wala"
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-xl float"
+            />
             <span className="text-xl font-extrabold gradient-text tracking-tight">
               Word Wala
             </span>

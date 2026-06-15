@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LaunchBanner from "@/components/LaunchBanner";
 import { Analytics } from "@vercel/analytics/next";
 
 const nunito = Nunito({
@@ -53,6 +54,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <LaunchBanner />
         <Analytics />
       </body>
     </html>

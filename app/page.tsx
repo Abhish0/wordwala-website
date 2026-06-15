@@ -14,7 +14,7 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-[#DDDDE8] mb-6">
                 <span className="w-2 h-2 rounded-full bg-[#00C9A7] animate-pulse" />
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#555770]">
-                  Now in Play Store Review
+                  Now Live on Google Play
                 </span>
               </div>
 
@@ -34,7 +34,12 @@ export default function Home() {
                 <Link href="/play" className="btn-primary text-base">
                   <span>🎮</span> Play Now (Free)
                 </Link>
-                <a href="#download" className="btn-secondary text-base">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.wordwala.game.word_wala"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary text-base"
+                >
                   <span>📱</span> Get the App
                 </a>
               </div>
@@ -185,25 +190,33 @@ export default function Home() {
       <section id="download" className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="card p-10 md:p-14 text-center">
-            <div className="text-6xl mb-4 float">🐼</div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="Word Wala"
+              width={80}
+              height={80}
+              className="w-20 h-20 mx-auto mb-4 rounded-2xl float"
+            />
             <h2 className="text-3xl md:text-5xl font-black text-[#1A1A2E] mb-4">
-              Be among the first to play.
+              Now live — download free!
             </h2>
             <p className="text-lg text-[#555770] mb-8 max-w-xl mx-auto">
-              Word Wala is launching on Google Play soon. Try a quick game right
-              here in your browser — and join the launch list to be notified
-              the moment it&apos;s live.
+              Word Wala is on Google Play. Download it free and start building
+              words, learning meanings, and beating your friends today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/play" className="btn-primary text-base">
-                <span>🎮</span> Try Quick Play
-              </Link>
               <a
-                href="mailto:abhipic2025@gmail.com?subject=Notify%20me%20at%20Word%20Wala%20launch&body=Hi%2C%20please%20add%20me%20to%20the%20Word%20Wala%20launch%20list!"
-                className="btn-secondary text-base"
+                href="https://play.google.com/store/apps/details?id=com.wordwala.game.word_wala"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary text-base"
               >
-                <span>🔔</span> Notify Me at Launch
+                <span>📱</span> Download on Google Play
               </a>
+              <Link href="/play" className="btn-secondary text-base">
+                <span>🎮</span> Try in Browser
+              </Link>
             </div>
             <p className="text-xs text-[#9094A6] mt-6">
               Follow daily &ldquo;word of the day&rdquo; drops on Instagram{" "}
